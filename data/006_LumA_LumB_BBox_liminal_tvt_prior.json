@@ -1,0 +1,443 @@
+{
+  "name": "006_LumA_LumB_BBox_liminal_tvt_prior",
+  "dirBase": "BC_PETMR_Omics",
+  "dirPreprocessed": "BC_PETMR_Omics/Tasks",
+  "rthreshold_component": 0.1,
+  "percentile_lower_clip": 0,
+  "percentile_upper_clip": 100,
+  "modality": {
+    "0": "T1_POST_DYNAMIC_0",
+    "1": "T1_POST_DYNAMIC_1",
+    "2": "T1_POST_DYNAMIC_2",
+    "3": "T1_POST_DYNAMIC_3",
+    "4": "T1_POST_DYNAMIC_4",
+    "5": "T1_POST_DYNAMIC_5",
+    "6": "T1_POST_DYNAMIC_6",
+    "7": "STIR",
+    "8": "ADC",
+    "9": "PET"
+  },
+  "labels": {
+    "0": {
+      "name": "subtype",
+      "classes": {
+        "0": "luminal_a",
+        "1": "luminal_b"
+      }
+    }
+  },
+  "train": [
+    {
+      "image": "Imaging/TUE018_001",
+      "maskROI": "Segmentations/Intratumorous/TUE018_001.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_001.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_002",
+      "maskROI": "Segmentations/Intratumorous/TUE018_002.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_002.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_003",
+      "maskROI": "Segmentations/Intratumorous/TUE018_003.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_003.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_006",
+      "maskROI": "Segmentations/Intratumorous/TUE018_006.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_006.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_007",
+      "maskROI": "Segmentations/Intratumorous/TUE018_007.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_007.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_008",
+      "maskROI": "Segmentations/Intratumorous/TUE018_008.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_008.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_010",
+      "maskROI": "Segmentations/Intratumorous/TUE018_010.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_010.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_011",
+      "maskROI": "Segmentations/Intratumorous/TUE018_011.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_011.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_013",
+      "maskROI": "Segmentations/Intratumorous/TUE018_013.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_013.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_015",
+      "maskROI": "Segmentations/Intratumorous/TUE018_015.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_015.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_016",
+      "maskROI": "Segmentations/Intratumorous/TUE018_016.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_016.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_019",
+      "maskROI": "Segmentations/Intratumorous/TUE018_019.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_019.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_020",
+      "maskROI": "Segmentations/Intratumorous/TUE018_020.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_020.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_021",
+      "maskROI": "Segmentations/Intratumorous/TUE018_021.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_021.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_025",
+      "maskROI": "Segmentations/Intratumorous/TUE018_025.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_025.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_029",
+      "maskROI": "Segmentations/Intratumorous/TUE018_029.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_029.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_033",
+      "maskROI": "Segmentations/Intratumorous/TUE018_033.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_033.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_036",
+      "maskROI": "Segmentations/Intratumorous/TUE018_036.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_036.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_037",
+      "maskROI": "Segmentations/Intratumorous/TUE018_037.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_037.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_039",
+      "maskROI": "Segmentations/Intratumorous/TUE018_039.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_039.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_040",
+      "maskROI": "Segmentations/Intratumorous/TUE018_040.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_040.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_041",
+      "maskROI": "Segmentations/Intratumorous/TUE018_041.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_041.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_043",
+      "maskROI": "Segmentations/Intratumorous/TUE018_043.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_043.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_044",
+      "maskROI": "Segmentations/Intratumorous/TUE018_044.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_044.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_049",
+      "maskROI": "Segmentations/Intratumorous/TUE018_049.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_049.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_050",
+      "maskROI": "Segmentations/Intratumorous/TUE018_050.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_050.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_057",
+      "maskROI": "Segmentations/Intratumorous/TUE018_057.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_057.nii",
+      "labels": [
+        0
+      ]
+    }
+  ],
+  "val": [
+    {
+      "image": "Imaging/TUE018_004",
+      "maskROI": "Segmentations/Intratumorous/TUE018_004.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_004.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_005",
+      "maskROI": "Segmentations/Intratumorous/TUE018_005.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_005.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_018",
+      "maskROI": "Segmentations/Intratumorous/TUE018_018.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_018.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_022",
+      "maskROI": "Segmentations/Intratumorous/TUE018_022.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_022.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_024",
+      "maskROI": "Segmentations/Intratumorous/TUE018_024.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_024.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_026",
+      "maskROI": "Segmentations/Intratumorous/TUE018_026.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_026.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_031",
+      "maskROI": "Segmentations/Intratumorous/TUE018_031.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_031.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_035",
+      "maskROI": "Segmentations/Intratumorous/TUE018_035.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_035.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_038",
+      "maskROI": "Segmentations/Intratumorous/TUE018_038.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_038.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_046",
+      "maskROI": "Segmentations/Intratumorous/TUE018_046.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_046.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_052",
+      "maskROI": "Segmentations/Intratumorous/TUE018_052.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_052.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_056",
+      "maskROI": "Segmentations/Intratumorous/TUE018_056.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_056.nii",
+      "labels": [
+        0
+      ]
+    }
+  ],
+  "test": [
+    {
+      "image": "Imaging/TUE018_009",
+      "maskROI": "Segmentations/Intratumorous/TUE018_009.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_009.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_012",
+      "maskROI": "Segmentations/Intratumorous/TUE018_012.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_012.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_014",
+      "maskROI": "Segmentations/Intratumorous/TUE018_014.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_014.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_023",
+      "maskROI": "Segmentations/Intratumorous/TUE018_023.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_023.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_027",
+      "maskROI": "Segmentations/Intratumorous/TUE018_027.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_027.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_028",
+      "maskROI": "Segmentations/Intratumorous/TUE018_028.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_028.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_032",
+      "maskROI": "Segmentations/Intratumorous/TUE018_032.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_032.nii",
+      "labels": [
+        0
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_042",
+      "maskROI": "Segmentations/Intratumorous/TUE018_042.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_042.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_045",
+      "maskROI": "Segmentations/Intratumorous/TUE018_045.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_045.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_047",
+      "maskROI": "Segmentations/Intratumorous/TUE018_047.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_047.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_048",
+      "maskROI": "Segmentations/Intratumorous/TUE018_048.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_048.nii",
+      "labels": [
+        1
+      ]
+    },
+    {
+      "image": "Imaging/TUE018_051",
+      "maskROI": "Segmentations/Intratumorous/TUE018_051.nii",
+      "maskForeground": "Segmentations/Whole_Breast/TUE018_051.nii",
+      "labels": [
+        0
+      ]
+    }
+  ]
+}
