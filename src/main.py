@@ -15,7 +15,8 @@ if __name__ == '__main__':
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
-# TODO: Insert weights files.
+# TODO: Figure out a way to upload the weights files.
+# TODO: Insert the weights files.
 # TODO: Debug the demonstration of random forest.
 # TODO: Debug the demonstration of ResNet.
 # TODO: Debug the demonstration of explainability.
