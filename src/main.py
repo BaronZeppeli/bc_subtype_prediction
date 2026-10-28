@@ -21,4 +21,4 @@ if __name__ == '__main__':
 # TODO: Debug the demonstration of ResNet.
 # TODO: Debug the demonstration of explainability.
 # TODO: Update the code availability section in the manuscript.
-# TODO: Update README.md.d
+# TODO: Update README.md.
