@@ -5,7 +5,7 @@ import torch.nn as nn
 from torchvision import models
 import warnings
 
-import resnet_3d
+import resnet_subtype.resnet_3d as resnet_3d
 
 
 class AbstractFactory(ABC):

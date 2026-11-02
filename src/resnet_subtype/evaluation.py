@@ -75,7 +75,7 @@ class EnsembleEvaluation:
         """
         This method serves as a hook for the radiomics predictions to have
         access to the same extensive evaluation metrics as the neural network
-        ensemble models they are pitted against.
+        ensemble weights they are pitted against.
         """
         dict_summary_statistics = {"task": "radiomics",
                                    "ensembles": {}}

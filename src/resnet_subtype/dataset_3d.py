@@ -5,7 +5,7 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset
 
-from dataset_2d import AbstractDataset
+from resnet_subtype.dataset_2d import AbstractDataset
 
 import data_processing.voxelizer as voxelizer
 

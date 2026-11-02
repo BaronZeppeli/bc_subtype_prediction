@@ -9,7 +9,7 @@ import warnings
 
 from scipy.interpolate import griddata
 
-import handler_nifti
+import data_processing.handler_nifti as handler_nifti
 
 """
 def convert_df_to_volume(df: pd.DataFrame,

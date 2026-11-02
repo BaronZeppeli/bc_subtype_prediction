@@ -26,7 +26,7 @@ class Task:
         self.dir_base = self.dict_dataset["dirBase"]
         self.dir_preprocessed = self.dict_dataset["dirPreprocessed"]
         self.dir_task = os.path.join(self.dir_preprocessed, self.name)
-        self.dir_models = os.path.join(self.dir_task, "models")
+        self.dir_models = os.path.join(self.dir_task, "weights")
         self.dir_explainability = os.path.join(self.dir_task, "explainability")
         self.dir_images = os.path.join(self.dir_task, "images")
         self.dir_whole_body = os.path.join(self.dir_task, "whole_body")
@@ -34,7 +34,7 @@ class Task:
 
         self.dir_radiomics = os.path.join(self.dir_task, "radiomics")
         self.dir_radiomics_input = os.path.join(self.dir_radiomics, "input")
-        self.dir_radiomics_models = os.path.join(self.dir_radiomics, "models")
+        self.dir_radiomics_models = os.path.join(self.dir_radiomics, "weights")
         self.dir_radiomics_inference = os.path.join(self.dir_radiomics,
                                                     "inference")
         self.dir_radiomics_explainability = os.path.join(self.dir_radiomics,

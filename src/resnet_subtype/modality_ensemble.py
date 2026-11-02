@@ -12,11 +12,11 @@ from tqdm import tqdm
 import itertools
 import warnings
 
-import task
-import ensemble
-import dataset_2d
-import dataset_3d
-import linear_solver
+import resnet_subtype.task as task
+import resnet_subtype.ensemble as ensemble
+import resnet_subtype.dataset_2d as dataset_2d
+import resnet_subtype.dataset_3d as dataset_3d
+import resnet_subtype.linear_solver as linear_solver
 
 
 class SingleModel:
@@ -32,14 +32,19 @@ class SingleModel:
                  model_id: str,
                  dir_base: str,
                  transform_2D,
-                 transform_3D):
-        dir_weights = os.path.join(dir_base, model_id, "models")
-        assert len(os.listdir(dir_weights)) == 1, ("There can only be 1 weight "
-                                                   "file in a directory for a "
-                                                   "SingleModel instance!")
-        file_weights = os.path.join(dir_weights, os.listdir(dir_weights)[0])
-        with open(os.path.join(dir_base, model_id, "hyperparams.json"),
-                  "rb") as f:
+                 transform_3D,
+                 file_weights: str = None,
+                 file_hyperparams: str = None):
+        if (file_weights is None) | (file_hyperparams is None):
+            dir_weights = os.path.join(dir_base, model_id, "weights")
+            assert len(os.listdir(dir_weights)) == 1, (
+                "There can only be 1 weight "
+                "file in a directory for a "
+                "SingleModel instance!")
+            file_weights = os.path.join(dir_weights, os.listdir(dir_weights)[0])
+            file_hyperparams = os.path.join(dir_base, model_id,
+                                            "hyperparams.json")
+        with open(file_hyperparams, "rb") as f:
             dict_hyperparams = json.load(f)
 
         (self.model_instance, self.n_channels_input, self.n_classes_per_label,
@@ -193,7 +198,7 @@ class SingleModel:
         df_pred_image = pd.DataFrame({SingleModel.ID: y_name,
                                       SingleModel.LABEL: y_true, })
 
-        df_pred_image[SingleModel.LABEL+"_pred"]=np.argmax(y_probs, axis=1)
+        df_pred_image[SingleModel.LABEL + "_pred"] = np.argmax(y_probs, axis=1)
         df_pred_image[class_columns] = y_probs
 
         df_pred_patient = SingleModel.image_to_patient(
@@ -314,7 +319,8 @@ class SelectEnsemble:
                  axial_only: bool,
                  transform_2D,
                  transform_3D,
-                 load_best_model_info: dict):
+                 load_best_model_info: dict,
+                 dict_models_light: dict = None):
         # Dismiss certain versions if they do not improve the validation score.
         self.method_ensemble_selection = method_ensemble_selection
         assert self.method_ensemble_selection in self.VALID_METHODS_ENSEMBLE_SELECTION, \
@@ -327,8 +333,6 @@ class SelectEnsemble:
         self.task = task.Task(file_task=file_task)
         self.dir_base = dir_base
 
-        self.modality_idxs_per_version = modality_idxs_per_version
-        self.versions = list(self.modality_idxs_per_version.keys())
         # For lasso and ridge.
         self.alpha = alpha
         # For l1 and l2 regularization of logistic regression.
@@ -351,15 +355,36 @@ class SelectEnsemble:
 
         ####
 
-        # Selecting the best model for each version.
-        # In case they were calculated already, there is the option to just
-        # load them from a dictionary.
-        (self.best_score_per_version, self.best_model_per_version,
-         self.best_id_per_version,
-         self.dir_model_per_version) = self._get_model_details_per_version(
-            load_best_model_info=load_best_model_info)
+        if dict_models_light is not None:
+            self.modality_idxs_per_version = {key: dict_models_light[key][
+                "channel_couple"] for key in dict_models_light.keys()}
+            self.best_score_per_version, self.best_id_per_version, \
+                self.dir_model_per_version = None, None, None
+            self.best_model_per_version \
+                = {key: SingleModel(model_id=None,
+                                    dir_base=None,
+                                    transform_2D=self.transform_2D,
+                                    transform_3D=self.transform_3D,
+                                    file_weights=
+                                    dict_models_light[key]["file_weights"],
+                                    file_hyperparams=
+                                    dict_models_light[key]["file_hyperparams"])
+                   for key in dict_models_light.keys()}
+
+        else:
+            # Selecting the best model for each version.
+            # In case they were calculated already, there is the option to just
+            # load them from a dictionary.
+            (self.best_score_per_version, self.best_model_per_version,
+             self.best_id_per_version,
+             self.dir_model_per_version) = self._get_model_details_per_version(
+                load_best_model_info=load_best_model_info)
+            self.modality_idxs_per_version = modality_idxs_per_version
+
 
         ####
+
+        self.versions = list(self.modality_idxs_per_version.keys())
 
         # Determining the optimal weights of each version.
         self.weights_per_version, self.best_score = (
@@ -399,7 +424,7 @@ class SelectEnsemble:
                                           "class_1": preds_weighted})
 
         if verbose:
-            print("The weighted output of the models:")
+            print("The weighted output of the weights:")
             print(df_preds_weighted)
 
         return df_preds_weighted
@@ -417,7 +442,7 @@ class SelectEnsemble:
         for version_idx, version in enumerate(self.versions):
             model = self.best_model_per_version[version]
             modality_idxs = self.modality_idxs_per_version[version]
-            df_pred_image, df_pred_patient = model.predict_single_modality(
+            df_pred_image, df_pred_patient = model.predict(
                 file_task=self.file_task,
                 tvt=tvt,
                 modality_idxs=modality_idxs,
@@ -541,7 +566,7 @@ class SelectEnsemble:
                             preds_per_version: np.ndarray,
                             labels: np.ndarray):
         """
-        Select only the models which maximize the score under their mean when
+        Select only the weights which maximize the score under their mean when
         contributing equally (a special case of l1).
         """
 
@@ -658,7 +683,8 @@ class SelectEnsemble:
         if "log_reg" in self.method_ensemble_selection:
             y_probs = self.regression_model.predict_proba(X=preds_per_version)
         else:
-            output = self.regression_model.predict_single_modality(X=preds_per_version)
+            output = self.regression_model.predict_single_modality(
+                X=preds_per_version)
             y_probs = np.zeros((input.shape[0], 2))
             y_probs[:, 1] = output
             y_probs[:, 0] = 1 - output
@@ -679,7 +705,7 @@ class SelectEnsemble:
         best_id_per_version = {}
         dir_per_version = {}
 
-        print("Identifying the best models per version...")
+        print("Identifying the best weights per version...")
 
         for i, version in enumerate(self.modality_idxs_per_version.keys()):
             print("===========================================================")
@@ -701,7 +727,7 @@ class SelectEnsemble:
             dir_per_version[version] = dir_version
 
         # Printing the results:
-        print("Finished identifying the best models per version.")
+        print("Finished identifying the best weights per version.")
         print("Best model per version:")
         for version in self.modality_idxs_per_version.keys():
             print(F"######\n{version}")
@@ -745,6 +771,7 @@ class SelectEnsemble:
         Load the optimal model for a single version from a dictionary
         provided by the user.
         """
+        print(load_best_model_info)
         model_id = load_best_model_info[version]["model_id"]
 
         modality_idxs = load_best_model_info[version][
@@ -785,7 +812,7 @@ class SelectEnsemble:
                       file_export=None):
         """"
         Prints and exports the salient information of an ensemble, including
-        the best models per version and the versions which were used for the
+        the best weights per version and the versions which were used for the
         final prediction.
         """
         str_versions = ", ".join(self.versions)
@@ -825,7 +852,7 @@ class SelectEnsemble:
             dir_version = self.dir_model_per_version[version]
             # 2. Exact location of model weights file.
             file_weights \
-                = os.path.join(dir_version, "models", model_id + ".pth")
+                = os.path.join(dir_version, "weights", model_id + ".pth")
             dict_ensemble_summary[version]["file_weights"] = file_weights
             print("Weights file: ", file_weights)
 
@@ -848,7 +875,7 @@ class SelectEnsemble:
 
             print("")
 
-        # Optionally: Export the details of the selected models and versions.
+        # Optionally: Export the details of the selected weights and versions.
         if file_export is not None:
             with open(file_export, "w") as f:
                 json.dump(dict_ensemble_summary, f)

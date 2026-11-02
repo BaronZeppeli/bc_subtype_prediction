@@ -11,10 +11,10 @@ import torch.nn.functional as F
 
 from tqdm import tqdm
 
-import resnet_2d
-import dataset_2d
-import dataset_3d
-import evaluation
+import resnet_subtype.resnet_2d as resnet_2d
+import resnet_subtype.dataset_2d as dataset_2d
+import resnet_subtype.dataset_3d as dataset_3d
+import resnet_subtype.evaluation as evaluation
 
 
 class HyperEnsembleModel(nn.Module):
@@ -22,10 +22,10 @@ class HyperEnsembleModel(nn.Module):
     def __init__(self, *ensemble_models):
         super(HyperEnsembleModel).__init__()
 
-        assert len(ensemble_models) > 0, "No ensemble models provided!"
+        assert len(ensemble_models) > 0, "No ensemble weights provided!"
         assert np.all([isinstance(ensemble_model, EnsembleModel) for \
                        ensemble_model in
-                       ensemble_models]), "Models need to be ensemble models!"
+                       ensemble_models]), "Models need to be ensemble weights!"
         assert np.all([ensemble_model.n_channels_input == ensemble_models[
             0].n_channels_input for ensemble_model in ensemble_models]), \
             "Models need to be all accept the same number of image channels!"
@@ -36,10 +36,10 @@ class HyperEnsembleModel(nn.Module):
     def predict(self,
                 dir_image: str):
         """
-        NOTE: Since the hyper ensembles might consist of 2D and 3D models at
+        NOTE: Since the hyper ensembles might consist of 2D and 3D weights at
         once, no tensors can be provided as input, but rather the directory
         containing the images such that they may be loaded according to the
-        different requirements of the models.
+        different requirements of the weights.
         """
         # TODO: Continue here.
         pass

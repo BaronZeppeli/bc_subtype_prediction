@@ -308,8 +308,8 @@ class TaskPreprocess:
 
     def extract_radiomics_from_patches(self):
         """
-        Extracting radiomic features from patch files, to train tree-models
-        as a baseline against the ResNet patches models.
+        Extracting radiomic features from patch files, to train tree-weights
+        as a baseline against the ResNet patches weights.
         """
         # Only train makes sense, since there is no dedicated validation
         # dataset!

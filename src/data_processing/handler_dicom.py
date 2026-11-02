@@ -23,8 +23,8 @@ from tqdm import tqdm
 
 from scipy.interpolate import griddata, RegularGridInterpolator
 
-import handler_nifti
-import handler_siemens
+import data_processing.handler_nifti as handler_nifti
+import data_processing.handler_siemens as handler_siemens
 
 DEFAULT_NAME = "PATIENT"
 DEFAULT_MODALITY = "MODALITY"

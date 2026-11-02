@@ -23,7 +23,7 @@ from tqdm import tqdm
 import joblib
 from datetime import datetime
 
-import omics
+import radiomics.omics as omics
 
 from resnet_subtype.task import Task
 
@@ -762,7 +762,7 @@ class RadiomicsTrainReproduce:
         model_id = dict_hyperparams[RadiomicsTrain.KEY_MODEL_ID]
         model_type = dict_hyperparams[RadiomicsTrain.KEY_MODEL_TYPE]
         # Random state receives special treatment compared to the other
-        # hyperparameters, since it is shared among all models.
+        # hyperparameters, since it is shared among all weights.
         random_state = dict_hyperparams[RadiomicsTrain.RANDOM_STATE]
         hyperparams = dict_hyperparams[RadiomicsTrain.KEY_HYPERPARAMS]
 
@@ -902,7 +902,7 @@ class AbstractTreeModel(ABC):
                           AbstractTreeModel.SCORES_REGRESSION.items()}
             dict_eval[label_id] = dict_label
 
-        file_export = os.path.join(dir_export, "models", model_id, "evaluation",
+        file_export = os.path.join(dir_export, "weights", model_id, "evaluation",
                                    F"evaluation_regression_{model_id}.json")
         os.makedirs(os.path.dirname(file_export), exist_ok=True)
         with open(file_export, 'w') as f:
@@ -979,6 +979,15 @@ class TreeModel(AbstractTreeModel):
         return TreeModel(file_task=file_task,
                          file_weights=file_weights,
                          file_hyperparams=file_hyperparams,
+                         file_scaler=file_scaler)
+
+    @staticmethod
+    def load_model_light(file_task: str,
+                         file_weights: str,
+                         file_scaler: str):
+        return TreeModel(file_task=file_task,
+                         file_weights=file_weights,
+                         file_hyperparams=None,
                          file_scaler=file_scaler)
 
     def __init__(self,
@@ -1087,7 +1096,7 @@ class TreeModel(AbstractTreeModel):
 
         if save:
             dir_export = os.path.join(self.task.dir_radiomics,
-                                      "models",
+                                      "weights",
                                       self.id,
                                       "inference")
             file_export = TreeModel.export_df(
@@ -1150,7 +1159,7 @@ class TreeModelLOO(AbstractTreeModel):
 
         self.models = []
         self.left_out_idxs = []
-        # Initialize the LOO models and store them in a list.
+        # Initialize the LOO weights and store them in a list.
         self._create_models(dir_models=dir_models)
 
         return
@@ -1199,9 +1208,9 @@ class TreeModelLOO(AbstractTreeModel):
     def _create_models(self,
                        dir_models: str):
         """
-        Helper function to initialize all models of an LOO run.
+        Helper function to initialize all weights of an LOO run.
         """
-        # Make sure to kick out the shared info.json file for the loo models!
+        # Make sure to kick out the shared info.json file for the loo weights!
         list_dir_fold = [os.path.join(dir_models, dir_fold) for dir_fold in
                          os.listdir(dir_models) if
                          os.path.isdir(os.path.join(dir_models, dir_fold))]

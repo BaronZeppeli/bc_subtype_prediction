@@ -27,15 +27,22 @@ The repository includes code for data preprocessing, model development, model tr
 .
 ├── README.md
 ├── environment.yml
+├── .gitignore
 ├── src/
-│   ├── preprocessing.py
+│   ├── data_preprocessing
+│   │    ├── ...
+│   ├── ...
+├── data/
+│   ├── 006_LumA_LumB_BBox_liminal_tvt_prior.json
 │   ├── ...
 ├── models/
-│   └── [trained_model_weights]
-├── notebooks/
-│   └── demonstration.ipynb
-└── evaluation/
-    └── [evaluation_results]
+│   ├── random_forest
+│   │     ├── ...
+│   └── resnet
+│        ├── ...
+└── notebooks/
+   ├── demonstration_explainability.ipynb
+   ├── ...
 ```
 
 ---
@@ -75,7 +82,11 @@ The raw data are [included in this repository / available from the external sour
 
 ### Data preprocessing
 
-The preprocessing pipeline includes the following steps, as applicable:
+The preprocessing pipeline includes the following steps:
+
+1. Replace attributes "dirBase" and "dirPreprocessed" in file 
+   /data/006_LumA_LumB_BBox_liminal_tvt_prior.json with the corresponding 
+   paths. 
 
 1. Data loading and quality control.
 2. Handling of missing values.

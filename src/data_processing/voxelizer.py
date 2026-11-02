@@ -15,7 +15,7 @@ from nibabel.filebasedimages import ImageFileError
 from PIL import Image, UnidentifiedImageError
 
 # Row Spacing / Column Spacing / Slice Spacing.
-import handler_nifti
+import data_processing.handler_nifti as handler_nifti
 
 DEFAULT_ORIENTATION = "axial"
 DEFAULT_VOXEL_SIZE: np.ndarray = np.array([0.30, 0.30, 0.30])
@@ -837,8 +837,8 @@ class VoxelArrayProcessor:
 
 
 # Just to trick the import system into working.
-import to_voxel_array_converter
-from handler_siemens import convert_siemens_to_volume, \
+import data_processing.to_voxel_array_converter as to_voxel_array_converter
+from data_processing.handler_siemens import convert_siemens_to_volume, \
     is_siemens
-from mat_handler import convert_mat_to_voxel_array
-import handler_dicom
+from data_processing.mat_handler import convert_mat_to_voxel_array
+import data_processing.handler_dicom as handler_dicom

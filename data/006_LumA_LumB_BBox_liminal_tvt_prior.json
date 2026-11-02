@@ -1,7 +1,7 @@
 {
   "name": "006_LumA_LumB_BBox_liminal_tvt_prior",
-  "dirBase": "BC_PETMR_Omics",
-  "dirPreprocessed": "BC_PETMR_Omics/Tasks",
+  "dirBase": "X:\\_Guests_and_Collaborations\\Internal\\AG Pichler_OH\\Pascal\\BC_PETMR_Omics",
+  "dirPreprocessed": "X:\\_Guests_and_Collaborations\\Internal\\AG Pichler_OH\\Pascal\\BC_PETMR_Omics\\Tasks",
   "rthreshold_component": 0.1,
   "percentile_lower_clip": 0,
   "percentile_upper_clip": 100,

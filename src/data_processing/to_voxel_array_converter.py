@@ -11,7 +11,7 @@ import re
 import ast
 from functools import reduce
 
-import voxelizer
+import data_processing.voxelizer as voxelizer
 
 ################################################################################
 
