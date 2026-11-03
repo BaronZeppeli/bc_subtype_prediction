@@ -447,10 +447,72 @@ class EvaluateGradCAM:
         return
 
     def shell_plot_single(self,
-                          tvt:str,
-                          sample_id:str):
-        # TODO: Continue here.
-        pass
+                          sample_id: str,
+                          tvt:str):
+        shells_per_version={}
+        for version in self.dict_models.keys():
+            dir_samples = os.path.join(self.task.dir_explainability,
+                                       version,
+                                       tvt)
+
+            file_grad_cam = os.path.join(dir_samples,
+                                         sample_id,
+                                         sample_id + "_grad_cam.nii")
+            file_shells = os.path.join(dir_samples,
+                                       sample_id,
+                                       sample_id + "_shells.nii")
+
+            arr_grad_cam = \
+                voxelizer.VoxelArray(source_voxel=file_grad_cam).array[
+                    ..., 0]
+            arr_shells = \
+                voxelizer.VoxelArray(source_voxel=file_shells).array[
+                    ..., 0]
+
+            assert arr_grad_cam.shape == arr_shells.shape, \
+                ("The Grad-CAM, centers and segmentation arrays do not "
+                 "have the same dimensions!")
+
+            # To figure out how much activation was inside the tumor.
+            sum_grad_total = np.sum(arr_grad_cam[arr_shells > 0])
+            # Avoids errors when displaying bar plots for volumes
+            # without any TUMOR activation.
+            if sum_grad_total == 0:
+                warnings.warn("Total tumor activation of 0 detected!")
+                sum_grad_total = 1e-10
+
+            shell_labels = np.sort(
+                np.unique(arr_shells[arr_shells > 0]))
+            rel_activation_per_shell = []
+            for shell_label in shell_labels:
+                # To set the activation of a distance percentile into
+                # relation.
+                sum_grad_shell = np.sum(
+                    arr_grad_cam[arr_shells == shell_label])
+                # Always needs to be relative!
+                rel_activation_per_shell += [
+                    sum_grad_shell / sum_grad_total]
+
+            shells_per_version[version] = rel_activation_per_shell
+
+        y_series = [shells_per_version[version] for version in
+                    self.version_names]
+        names = self.dict_models.keys()
+        colors = self.ORDERED_COLORS[:len(names)]
+
+        sample_ids = sorted(os.listdir(dir_samples))
+        n_lesions = len([si for si in sample_ids if
+                         ("_".join(
+                             sample_id.split("_")[:-1]) in si)])
+
+        self._bar_plot(y_series=y_series,
+                       names=names,
+                       colors=colors,
+                       sample_id=sample_id,
+                       n_lesions=n_lesions,
+                       file_export=None)
+
+        return
 
     def generate_shell_plots(self):
         """
