@@ -11,74 +11,55 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    import torchvision.transforms as tf
+    # %%
+    import matplotlib.pyplot as plt
+    import explainability.shap_radiomics as shap_radiomics
 
-    import src.resnet_subtype.modality_ensemble as modality_ensemble
-    import src.resnet_subtype.transform as transform
+    PLT_PARAMS = {
+        "font.family": "Arial",
+        "font.size": 12,
+        "axes.titlesize": 16,
+        "axes.labelsize": 16,
+        "xtick.labelsize": 11,
+        "ytick.labelsize": 11,
+        "legend.fontsize": 11,
+        "lines.linewidth": 2
+    }
+    DPI = 100
 
-    TRANSFORM_VAL_2D = tf.Compose([
-        transform.ResizeWithConstantRatio(target_size=128),
-    ])
-    TRANSFORM_VAL_3D = TRANSFORM_VAL_2D
+    # Update the global pyplot parameters.
+    plt.rcParams.update(PLT_PARAMS)
 
-    resnet_models = {"dce_mri":
-                         {"channel_couple": [0, 1, 2, 3, 4, 5, 6],
-                          "file_weights": "models/resnet/weights/dce_mri.pth",
-                          "file_hyperparams":"models/resnet/hyperparams"
-                                             "/hyperparams_dce_mri.json"},
-                     "T2W":
-                         {"channel_couple": [7],
-                          "file_weights": "models/resnet/weights/t2w.pth",
-                          "file_hyperparams":"models/resnet/hyperparams"
-                                             "/hyperparams_t2w.json"},
-                     "ADC":
-                         {"channel_couple": [8],
-                          "file_weights": "models/resnet/weights/adc.pth",
-                          "file_hyperparams":"models/resnet/hyperparams"
-                                             "/hyperparams_adc.json"},
-                     "PET":
-                         {"channel_couple": [9],
-                          "file_weights": "models/resnet/weights/pet.pth",
-                          "file_hyperparams":"models/resnet/hyperparams"
-                                             "/hyperparams_pet.json"}
-                     }
+    class_names = ["Luminal A", "Luminal B"]
+    max_display = 11
+    clustering_cutoff = 0.5
+    example_idx = 0
+    show = True
+    tvt = "train"
+
     file_task = "data/006_LumA_LumB_BBox_liminal_tvt_prior.json"
-    dir_weights = "models/resnet/weights"
-    dir_hyperparams = "models/resnet/hyperparams"
 
-    ####
+    file_model_rf = "models/random_forest/random_forest_model.pkl"
+    file_scaler_rf = "models/random_forest/random_forest_scaler.pkl"
+    file_hyperparams_rf = "models/random_forest/random_forest_hyperparams.json"
 
-    alpha = 0.0
-    C = 1.0
-    eps_preds = 0
-    eps_labels = 1e-2
-    ensemble_selection = "reg_linear"
+    for summation_mode in ["single", "sum"]:
+        sr = shap_radiomics.SHAPRadiomics(
+            file_task=file_task,
+            model_id=None,
+            tvt=tvt,
+            summation_mode=summation_mode,
+            file_weights=file_model_rf,
+            file_scaler=file_scaler_rf,
+            file_hyperparams=file_hyperparams_rf)
+        sr.visual_summary(max_display=max_display,
+                          class_names=class_names,
+                          example_idx=example_idx,
+                          show=show)
 
-    criterion = ["patient", "bce"]
-    axial_only = True
-    transform_2D = TRANSFORM_VAL_2D
-    transform_3D = TRANSFORM_VAL_3D
-
-    ####
-
-    se = modality_ensemble.SelectEnsemble(file_task=file_task,
-                                          dir_base=None,
-                                          criterion=criterion,
-                                          modality_idxs_per_version=None,
-                                          method_ensemble_selection=ensemble_selection,
-                                          alpha=alpha,
-                                          C=C,
-                                          eps_preds=eps_preds,
-                                          eps_labels=eps_labels,
-                                          axial_only=axial_only,
-                                          transform_2D=transform_2D,
-                                          transform_3D=transform_3D,
-                                          load_best_model_info=None,
-                                          dict_models_light=resnet_models)
-    se.predict_evaluate(tvt="test",
-                        verbose=True)
-
-# TODO: Debug the demonstration of explainability.
-# TODO: Update the code availability section in the manuscript.
+# TODO: Debug the demonstration of Grad-CAM.
+# TODO: Add or edit the .yml files.
 # TODO: Remove file main.py.
 # TODO: Update README.md.
+# TODO: Update the code availability section in the manuscript.
+
