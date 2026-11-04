@@ -6,7 +6,6 @@ subtypes by AI-driven analysis of [18F]FDG PET/MRI data
 <!--**Authors:** [Author names]  -->
 <!--**Corresponding author:** [Name and institutional email]  -->
 <!-- **Repository version:** [Version number] -->
-**Last updated:** [2026-10-27]
 
 ---
 
