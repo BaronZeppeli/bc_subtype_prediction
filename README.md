@@ -105,7 +105,7 @@ The repository implements the following model (s):
 - **Output
   format:** Class probabilities
 
-2. 3D ResNet Ensemble
+### 3D ResNet Ensemble
 
 ### Model inputs
 
